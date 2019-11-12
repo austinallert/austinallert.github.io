@@ -24,7 +24,8 @@ var background = function (window) {
         
         // container which will be returned
         var background;
-        
+        var tree;
+        var buildings;
         // ANIMATION VARIABLES HERE:
         
      
@@ -36,20 +37,43 @@ var background = function (window) {
             // TODO: 2 - Part 2
             // this fills the background with a obnoxious yellow
             // you should modify this to suit your game
-            var backgroundFill = draw.rect(canvasWidth, groundY,'blue');
+            var backgroundFill = draw.rect(canvasWidth, groundY,'black');
             background.addChild(backgroundFill);
-            var shape = draw.rect(width, height, color, strokeColor, strokeWidth);
-            var shape = draw.line(fromX, fromY, toX, toY, strokeColor, strokeWidth);
 
             
             // TODO: 3 - Add a moon and starfield
+            var shape = draw.bitmap('img/moon.png');
             
+            background.addChild(shape);
+            shape.x = 0;
+            shape.y = 0;
+            shape.scaleX = .4;
+            shape.scaleY = .4;
+            
+            var circle;
+                for(var i=0;i<100;i++) {
+                circle = draw.circle(2.5,'white','LightGray',2);
+                circle.x = canvasWidth*Math.random();
+                circle.y = groundY*Math.random();
+                background.addChild(circle);
+}
             
             // TODO: 5 - Add buildings!     Q: This is before TODO 4 for a reason! Why?
-            
-            
+            buildings = [];
+            var buildingHeight = 300;
+            for(var i=0;i<5;++i) {
+                var building = draw.rect(75,buildingHeight,'LightGray','Black',1);
+                building.x = 200*i;
+                building.y = groundY-buildingHeight;
+                background.addChild(building);
+                buildings.push(building);
+            }
+                        
             // TODO 4: Part 1 - Add a tree
-            
+          tree = draw.bitmap('img/tree.png');
+            tree.x = 200;
+            tree.y = 50;
+            background.addChild(tree);
             
         } // end of render function - DO NOT DELETE
         
@@ -61,12 +85,23 @@ var background = function (window) {
             var canvasWidth = app.canvas.width;
             var canvasHeight = app.canvas.height;
             var groundY = ground.y;
+
+
             
             // TODO 4: Part 2 - Move the tree!
-            
+            tree.x = tree.x + -1;
+            if(tree.x < -200) {
+    tree.x = canvasWidth;
+}
             
             // TODO 5: Part 2 - Parallax
-            
+            for(var i=0;i<buildings.length;++i) {
+                var building = buildings [i]
+                building.x = building.x + -1;
+                if(building.x < -200) {
+                    building.x = canvasWidth;
+                }
+            }
 
         } // end of update function - DO NOT DELETE
         
